@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sandeep Illuri | Machine Learning Engineer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Matrix background effect */
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: #060f13;
+    }
+    .matrix-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .main-content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 40px;
+    }
+    .card {
+      background: rgba(15, 35, 22, 0.97);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(30,240,30,0.18), 0 2px 8px rgba(0,0,0,0.18);
+      padding: 2.6rem 2.3rem;
+      max-width: 540px;
+      width: 94vw;
+      margin-bottom: 2.2em;
+      border: 1px solid #1c2d23;
+    }
+    .neon-green {
+      color: #39FF14;
+      text-shadow: 0 0 8px #39ff1480, 0 0 1px #39ff14;
+    }
+    .main-title {
+      font-size: 2.6rem;
+      font-family: 'Fira Mono', 'Consolas', 'Monaco', monospace;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 0.2em;
+      text-align: center;
+    }
+    .subtitle {
+      color: #20b763;
+      font-size: 1.2em;
+      text-align: center;
+      font-family: 'Fira Mono', monospace;
+      margin-bottom: 1em;
+      letter-spacing: 1.2px;
+    }
+    .section-title {
+      color: #39FF14;
+      font-size: 1.35rem;
+      font-family: 'Fira Mono', monospace;
+      margin: 2.4em 0 0.7em 0;
+      border-left: 4px solid #39FF14;
+      padding-left: 0.7em;
+      letter-spacing: 1.2px;
+    }
+    .about {
+      color: #d1ffd7;
+      font-family: 'Fira Mono', monospace;
+      font-size: 1.13rem;
+      margin: 0.8em 0 0 0;
+      line-height: 1.7;
+    }
+    .skills-list, .cert-list, .edu-list, .contact-list, .blog-list {
+      margin: 0.5em 0 0 0;
+      padding: 0;
+      list-style: none;
+      color: #caffb5;
+      font-family: 'Fira Mono', monospace;
+      font-size: 1.08rem;
+    }
+    .skills-list li, .cert-list li, .edu-list li, .contact-list li, .blog-list li {
+      margin-bottom: 0.4em;
+      letter-spacing: 0.7px;
+    }
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.3em;
+      margin: 1em 0 0 0;
+    }
+    @media (max-width: 700px) {
+      .project-grid { grid-template-columns: 1fr; }
+      .card { max-width: 98vw; padding: 1.1em 0.5em; }
+    }
+    .project-card {
+      background: rgba(10, 24, 17, 0.98);
+      border: 1px solid #205d31;
+      border-radius: 14px;
+      box-shadow: 0 1px 7px #11331333;
+      padding: 1em 1.2em 1.2em 1.2em;
+      margin-bottom: 0.7em;
+      color: #baffc9;
+      font-family: 'Fira Mono', monospace;
+      position: relative;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: box-shadow .18s;
+    }
+    .project-card:hover { box-shadow: 0 4px 30px #20b76344; }
+    .proj-title {
+      color: #39FF14;
+      font-size: 1.16em;
+      font-weight: 600;
+      margin-bottom: 0.1em;
+      letter-spacing: 0.6px;
+    }
+    .proj-desc {
+      font-size: 0.98em;
+      color: #baffc9;
+      margin-bottom: 0.7em;
+      letter-spacing: 0.3px;
+    }
+    .proj-link {
+      background: linear-gradient(90deg, #39FF14 50%, #20b763 100%);
+      color: #122617;
+      font-family: 'Fira Mono', monospace;
+      border: none;
+      border-radius: 6px;
+      padding: 0.36em 1.18em;
+      font-size: 1em;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.19s, color 0.19s;
+      margin-top: 0.3em;
+      display: inline-block;
+      box-shadow: 0 2px 8px #23d16025;
+    }
+    .proj-link:active, .proj-link:hover { background: #20b763; color: #fff; }
+    /* Contact and Blog Button Style */
+    .placeholder-btn {
+      display: inline-block;
+      margin: 0.38em 0.55em 0.38em 0;
+      background: none;
+      border: 1.5px solid #39FF14;
+      border-radius: 4px;
+      color: #39FF14;
+      padding: 0.33em 1.15em;
+      font-size: 1em;
+      font-family: 'Fira Mono', monospace;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.17s, color 0.17s, border 0.17s;
+    }
+    .placeholder-btn:hover, .placeholder-btn:focus {
+      background: #20b763;
+      color: #101e14;
+      border-color: #20b763;
+    }
+    /* Matrix animation font */
+    @import url('https://fonts.googleapis.com/css?family=Fira+Mono:400,700&display=swap');
+  </style>
+</head>
+<body>
+  <!-- Matrix Animation Canvas -->
+  <canvas class="matrix-canvas"></canvas>
+
+  <div class="main-content">
+    <div class="card" style="margin-top: 2.2em;">
+      <div class="main-title neon-green">Sandeep Illuri</div>
+      <div class="subtitle">Machine Learning Engineer</div>
+      <div class="about">
+        I’m a self-taught Machine Learning Engineer, passionate about building intelligent systems and continuously learning new things in AI and data science.<br>
+        Graduated in Mechanical Engineering from GITAM University.<br>
+        Driven by curiosity, self-motivation, and sharing knowledge with the community.
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title">🚀 Projects</div>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="proj-title">Python HTTP Web Server</div>
+          <div class="proj-desc">
+            A web server built from scratch in Python, serving static files and APIs like Flask.
+          </div>
+          <a href="#" class="proj-link">View Project</a>
+        </div>
+        <div class="project-card">
+          <div class="proj-title">AI Resume Analyzer</div>
+          <div class="proj-desc">
+            NLP-powered tool to analyze resumes and generate personalized improvement suggestions.
+          </div>
+          <a href="#" class="proj-link">View Project</a>
+        </div>
+        <div class="project-card">
+          <div class="proj-title">Chest Disease Classification</div>
+          <div class="proj-desc">
+            Deep learning model for detecting and classifying chest diseases from CT scans.
+          </div>
+          <a href="#" class="proj-link">View Project</a>
+        </div>
+        <div class="project-card">
+          <div class="proj-title">Math Misconception Detector</div>
+          <div class="proj-desc">
+            NLP and ML system to identify and explain misconceptions in students’ math answers.
+          </div>
+          <a href="#" class="proj-link">View Project</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title">🧠 Skills</div>
+      <ul class="skills-list">
+        <li>Python, C++, Linux</li>
+        <li>Machine Learning, Deep Learning, Data Science</li>
+        <li>NumPy, pandas, scikit-learn, Matplotlib</li>
+        <li>PyTorch, TensorFlow</li>
+        <li>Computer Vision, NLP</li>
+        <li>Docker, Git, AWS, MLOps basics</li>
+        <li>REST APIs, Flask</li>
+        <li>Problem Solving & Algorithms</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="section-title">🎓 Education</div>
+      <ul class="edu-list">
+        <li>B.Tech in Mechanical Engineering, GITAM University</li>
+      </ul>
+      <div class="section-title" style="margin-top:1.7em;">📜 Certifications</div>
+      <ul class="cert-list">
+        <li>Post Graduate Program in Data Science and Machine Learning (Skill Lync)</li>
+        <li>Machine Learning Fundamentals In-Depth</li>
+        <li>Advanced Deep Learning using Python</li>
+        <li>Core and Advanced Python Programming</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="section-title">✉️ Contact</div>
+      <div>
+        <a href="#" class="placeholder-btn">Email Me</a>
+        <a href="#" class="placeholder-btn">GitHub</a>
+        <a href="#" class="placeholder-btn">LinkedIn</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title">📝 Blog / Articles</div>
+      <ul class="blog-list">
+        <li>
+          <a href="#" class="placeholder-btn">How I Built My Python HTTP Server (Medium)</a>
+        </li>
+        <li>
+          <a href="#" class="placeholder-btn">Top 5 AI Tools Every Engineer Should Know (Medium)</a>
+        </li>
+        <li>
+          <a href="#" class="placeholder-btn">Coming Soon...</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    // Matrix background animation
+    const canvas = document.querySelector('.matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let fontSize = 19;
+    let columns = Math.floor(width / fontSize);
+    let drops = [];
+    let matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    // Initialize drops
+    for (let x = 0; x < columns; x++) drops[x] = Math.random() * height / fontSize;
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(6, 15, 19, 0.22)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = fontSize + "px 'Fira Mono', monospace";
+      for (let i = 0; i < drops.length; i++) {
+        let char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+        ctx.fillStyle = '#39FF14';
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.965) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    function resizeMatrix() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      columns = Math.floor(width / fontSize);
+      drops = [];
+      for (let x = 0; x < columns; x++) drops[x] = Math.random() * height / fontSize;
+    }
+    window.addEventListener('resize', resizeMatrix);
+    resizeMatrix();
+    setInterval(drawMatrix, 55);
+  </script>
+</body>
+</html>
